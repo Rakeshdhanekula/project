@@ -9,7 +9,6 @@ Secured way for connecting session-manger in AWS
 3. Terraform plan
 4. Terraform apply         # To auto apply, use --auto-approve
 
-
 Usage: 
 
   terraform fmt 

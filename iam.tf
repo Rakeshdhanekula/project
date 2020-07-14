@@ -1,3 +1,4 @@
+# Create role for Session Manger
 resource "aws_iam_role" "ssm" {
   name               = "ssm"
   assume_role_policy = <<EOF
@@ -15,6 +16,8 @@ resource "aws_iam_role" "ssm" {
 }
 EOF
 }
+
+# Create iam policy for ec2 instance ( choose ec2roleforSM)
 
 resource "aws_iam_policy" "policy" {
   name        = "test-policy"
@@ -116,11 +119,16 @@ resource "aws_iam_policy" "policy" {
 }
 EOF
 }
+
+# Attach the policy to the role which we created in the first steps
+
 resource "aws_iam_policy_attachment" "test-attach" {
   name       = "test-attachment"
   roles      = [aws_iam_role.ssm.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
+
+# we are attaching the role and policy to the ec2 instance
 
 resource "aws_iam_instance_profile" "hitman" {
   name = "hitman"
