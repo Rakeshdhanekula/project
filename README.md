@@ -1,4 +1,4 @@
-# Project
+# Session Manager
 
 Secured way for connecting session-manger in AWS
 
