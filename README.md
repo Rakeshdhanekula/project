@@ -1,4 +1,4 @@
-# project
+# Project
 
 Secured way for connecting session-manger in AWS
 
