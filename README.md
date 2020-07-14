@@ -14,4 +14,4 @@ Usage:
 
   terraform fmt 
 
-Where '${fmt}'=Format
+Where `${fmt}`=Format
