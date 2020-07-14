@@ -1,23 +1,20 @@
-variable "AWS_ACCESS_KEY" {}
-variable "AWS_SECRET_KEY" {}
-
+# my credentials
 provider "aws" {
-  region       = "eu-west-1"
-  access_key   = "${var.AWS_ACCESS_KEY}"
-  secret_key   = "${var.AWS_SECRET_KEY}"
+  region     = "eu-west-1"
+  access_key = "+++++++++++++++++++"
+  secret_key = "+++++++++++++++++++++"
 }
 
-resource "aws_key_pair" "david" {
-  key_name     = "david"
-  public_key   = "id_rsa.pub"
+resource "aws_security_group" "sessionmanger_security_group" {
+  name = "sessionmanager-group"
 }
 
-resource "aws_instance" "vm" {
-  ami          = "ami-1967056a"
-  instance_type= "t2.micro"
-  key_name     = "${aws_key_pair.david.key_name}"
+resource "aws_instance" "hitman" {
+  ami                  = "ami-089cc16f7f08c4457"
+  instance_type        = "t2.micro"
+  iam_instance_profile = aws_iam_instance_profile.hitman.name
   tags = {
-    Name       = "myvm"
+    Name = "playground"
   }
 }
 
