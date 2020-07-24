@@ -4,7 +4,7 @@ String credentialsId = 'awspass'
 try {
   stage('checkout') {
     node {
-     #  cleanWs()
+      cleanWs()
       checkout scm
     }
   }
