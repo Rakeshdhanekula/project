@@ -132,6 +132,6 @@ resource "aws_iam_policy_attachment" "test-attach" {
 
 resource "aws_iam_instance_profile" "hitman" {
   name = "hitman"
-  role = "${aws_iam_role.ssm.name}"
+  role = aws_iam_role.ssm.name
 }
 

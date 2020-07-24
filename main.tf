@@ -1,8 +1,8 @@
 # Credentials
 provider "aws" {
   region     = "eu-west-1"
-  access_key = "+++++++++++++++++++"
-  secret_key = "+++++++++++++++++++++"
+  access_key = "++++++++++++++++++++"
+  secret_key = "++++++++++++++++++++"
 }
 
 # Creating security group without inbound and outbound rules 
