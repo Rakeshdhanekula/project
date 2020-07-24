@@ -1,45 +1,39 @@
-pipeline {
-    agent {
-        node {
-            label 'master'
-        }
+pipeline {   
+  agent {
+    node {
+      label 'master'
+    }  
+  }
+  stages {
+    stage('checkout') {
+      steps {
+        checkout scm
+        sh 'docker pull hashicorp/terraform:light'
+      }
     }
-environment {
-        TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
+    stage('init') {
+      steps {
+        sh 'docker run -w /app -v /root/.aws:/root/.aws -v `pwd`:/app hashicorp/terraform:light init'
+      }
     }
-    stages {
-        stage('checkout repo') {
-            steps {
-              checkout scm
-            }
-        }
-        stage('pull latest light terraform image') {
-            steps {
-                sh  """
-                    docker pull hashicorp/terraform:light
-                    """
-                }
-            }
-        stage('init') {
-            steps {
-                sh  """
-                    ${TERRAFORM_CMD} init -backend=true -input=false
-                    """
-               }
-            }
-        stage('plan') {
-            steps {
-                sh  """
-                    ${TERRAFORM_CMD} plan -out=tfplan -input=false 
-                    """
-                }
-            }
-        stage('apply') {
-            steps {
-                sh  """
-                    ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
-                    """
-                }
-            }
-        }
+    stage('plan') {
+      steps {
+        sh 'docker run -w /app -v /root/.aws:/root/.aws -v `pwd`:/app hashicorp/terraform:light plan'
+      }
     }
+    stage('approval') {
+      options {
+        timeout(time: 1, unit: 'HOURS') 
+      }
+      steps {
+        input 'approve the plan to proceed and apply'
+      }
+    }
+    stage('apply') {
+      steps {
+        sh 'docker run -w /app -v /root/.aws:/root/.aws -v `pwd`:/app hashicorp/terraform:light apply -auto-approve'
+        cleanWs()
+      }
+    }
+  }
+}
