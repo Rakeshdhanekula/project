@@ -1,10 +1,3 @@
-# Credentials
-provider "aws" {
-  region     = "eu-west-1"
-  access_key = "++++++++++++++++++++"
-  secret_key = "++++++++++++++++++++"
-}
-
 # Creating security group without inbound and outbound rules 
 
 resource "aws_security_group" "sessionmanger_security_group" {
