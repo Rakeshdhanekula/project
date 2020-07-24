@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "terraform-bucket-jenkins"
+    key    = "terraform.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 # Creating security group without inbound and outbound rules 
 
 resource "aws_security_group" "sessionmanger_security_group" {
